@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-blue-bootcamp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: first-bootcamp-app
+      version: blue
+  template:
+    metadata:
+      name: first-blue-bootcamp-pod
+      labels:
+        app: first-bootcamp-app
+        version: blue
+    spec:
+      containers:
+      - name: first-bootcamp-container
+        image: wahyusutejo1986/firsbootcamptest:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service 
+metadata:
+  name: first-bootcamp-svc
+  labels:
+    app: first-bootcamp-app
+spec:
+  selector:
+    app: first-bootcamp-app
+    version: blue
+  type: NodePort
+  ports:
+  - nodePort: 32123
+    port: 80
+    targetPort: 80
